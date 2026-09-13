@@ -220,3 +220,95 @@ a {
     box-shadow: 0 0 0 3px var(--color-accent);
   }
 }
+
+.reviews {
+  padding-block: 80px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  &__title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--color-bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-bg-surface-hover);
+      border-color: var(--color-accent);
+    }
+  }
+
+  // Горизонтальный ряд со скроллом
+  &__track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; // прячем грубый стандартный скроллбар
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.review-card {
+  flex: 0 0 280px; // фиксированная ширина карточки скриншота
+  scroll-snap-align: start;
+
+  @media (min-width: 768px) {
+    flex: 0 0 320px;
+  }
+
+  &__image-box {
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: var(--color-bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    aspect-ratio: 9 / 16; // идеальная пропорция под скриншоты со смартфона!
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__caption {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+}
