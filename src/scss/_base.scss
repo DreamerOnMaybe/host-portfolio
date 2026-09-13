@@ -9,5 +9,5 @@ body {
 .container {
   max-width: var(--container-width);
   margin-inline: auto;
-  padding-inline: var(--container-padding);
+  padding: var(--container-padding);
 }
