@@ -6,13 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ведущий мероприятий Омск</title>
   <meta name="description" content="Стильные свадьбы, корпоративы и частные события в Омске." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Unbounded:wght@200..900&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
   <div id="app">
     <header class="header">
       <div class="container header__container">
-        <a href="#" class="header__logo">Влад Тетеркин</a>
+        <a href="/" class="header__logo logo">
+          Влад<span class="logo__surname">Тетеркин</span>
+        </a>
         <nav class="header__nav">
           <ul class="header__menu">
             <li class="header__item">
@@ -23,8 +30,18 @@
             </li>
           </ul>
         </nav>
-      </div>    
+      </div>
     </header>
+
+    <main class="main">
+      <section class="hero">
+        <div class="container hero__container">
+          <h1 class="hero__title">Энергия момента, в котором комфортно каждому гостю</h1>
+          <button class="btn">Посмотреть Работы</button>
+        </div>
+      </section>
+    </main>
+
   </div>
   <script type="module" src="/src/js/main.js"></script>
 </body>

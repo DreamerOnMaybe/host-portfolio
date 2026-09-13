@@ -1,13 +1,17 @@
 body {
-  font-family: var(--font-family-base);
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+    font-family: var(--font-base);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
 }
 
 .container {
-  max-width: var(--container-width);
-  margin-inline: auto;
-  padding: var(--container-padding);
+    max-width: var(--container-width);
+    margin-inline: auto;
+    padding: var(--container-padding);
 }
