@@ -3,7 +3,7 @@
 @use 'base';
 
 a {
-    transition:  0.2s ease;
+    transition: 0.2s ease;
 }
 
 .header__container {
@@ -14,6 +14,13 @@ a {
 .header__menu {
     display: flex;
     gap: 20px;
+
+    @media (max-width: 380px) {
+        gap: 10px;
+        font-size: 12px;
+        flex-direction: column;
+    }
+    
 }
 
 .hero__container {
@@ -22,7 +29,7 @@ a {
     display: flex;
     flex-direction: column;
     gap: 48px;
-    padding-block: 80px;
+    padding-block: clamp(40px, 5vw, 80px);
 }
 
 .hero__title {
@@ -49,19 +56,19 @@ a {
 .logo {
     font-family: var(--font-heading);
     font-weight: 700;
-    text-transform: uppercase; 
-    letter-spacing: 0.1em; 
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     line-height: 1;
     display: flex;
-    flex-direction: column; 
-    font-size: 24px; 
+    flex-direction: column;
+    font-size: 24px;
 
     &__surname {
         display: block;
         font-size: 16px;
-        font-weight: 400; 
-        color: var(--color-text-secondary); 
-        margin-top: 4px; 
+        font-weight: 400;
+        color: var(--color-text-secondary);
+        margin-top: 4px;
         margin-left: 20px;
     }
 
@@ -71,4 +78,53 @@ a {
             transition: color 0.3s ease;
         }
     }
+}
+
+.about__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-block: clamp(40px, 5vw, 80px);
+    flex-direction: column-reverse;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 48px;
+        padding-block: 100px;
+    }
+}
+
+.about__title {
+    font-weight: 700;
+    font-size: clamp(22px, 5vw, 36px);
+    line-height: 1.1;
+}
+
+.about__desc {
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--color-text-secondary);
+}
+
+.about__text {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    @media (max-width: 768px) {
+        text-align: center;
+    }
+}
+
+
+.main__photo {
+    width: clamp(280px, 40vw, 450px);
+    aspect-ratio: 4 / 5; 
+    object-fit: cover;
+    border-radius: clamp(20px, 3vw, 36px);
+    border: 1px solid rgba(255, 255, 255, 0.08); // благородная тонкая грань
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
