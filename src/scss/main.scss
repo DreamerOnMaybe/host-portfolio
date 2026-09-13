@@ -128,3 +128,95 @@ a {
     border: 1px solid rgba(255, 255, 255, 0.08); // благородная тонкая грань
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
+
+.portfolio {
+  padding-block: 80px;
+
+  &__title {
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  &__grid {
+    margin-top: clamp(40px, 6vw, 64px);
+    display: grid;
+    grid-template-columns: 1fr; // 1 колонка на смартфонах
+    gap: 32px;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, 1fr); // идеальная сетка 2х2 от планшета и выше
+      gap: 32px 24px;
+    }
+  }
+}
+
+.project {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+
+  &__image-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    aspect-ratio: 1 / 1; // квадратный кадр (или 4/3)
+    background-color: var(--color-bg-surface);
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &__badge {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(15, 16, 18, 0.75);
+    backdrop-filter: blur(8px);
+    color: var(--color-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  &__title {
+    margin-top: 16px;
+    font-weight: 700;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+
+  // Эффект при наведении курсора на десктопе
+  &:hover {
+    .project__photo {
+      transform: scale(1.04); // плавный зум картинки
+    }
+
+    .project__badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project__title {
+      color: var(--color-accent); // заголовок мягко подсвечивается
+    }
+  }
+
+  // Доступность: подсветка при переходе клавишей Tab
+  &:focus-visible {
+    border-radius: 16px;
+    box-shadow: 0 0 0 3px var(--color-accent);
+  }
+}
