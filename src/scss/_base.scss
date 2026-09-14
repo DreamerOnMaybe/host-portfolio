@@ -149,7 +149,7 @@ h1, h2, h3 {
   // Длительность синхронизирована с таймаутом смены src в main.js (150мс)
   opacity: 1;
   transform: scale(1);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.1s ease, transform 0.1s ease;
 
   // Состояние в момент смены слайда
   &.is-fading {

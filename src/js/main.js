@@ -39,6 +39,13 @@ const galleryData = {
   ]
 };
 
+function preloadGalleryImages(images) {
+  images.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
 const galleryAlt = {
   host: 'Ведущий Влад Тетеркин',
   'youth-day': 'Ведущий Влад Тетеркин на Дне молодежи',
@@ -65,26 +72,24 @@ function updateSlide(isInitialOpen = false) {
   btnPrev.style.display = hasMultiplePhotos ? 'block' : 'none';
   btnNext.style.display = hasMultiplePhotos ? 'block' : 'none';
 
-  const altText = `${galleryAlt[currentGalleryKey] || 'Фото галереи'} (${currentIndex + 1} из ${currentGallery.length})`;
-
   if (isInitialOpen) {
     modalImg.classList.add('is-fading');
     modalImg.src = currentGallery[currentIndex];
-    modalImg.alt = altText;
-    modalImg.onload = () => {
-      modalImg.classList.remove('is-fading');
-    };
+    modalImg.onload = () => modalImg.classList.remove('is-fading');
     return;
   }
 
   modalImg.classList.add('is-fading');
   setTimeout(() => {
     modalImg.src = currentGallery[currentIndex];
-    modalImg.alt = altText;
-    modalImg.onload = () => {
+    
+    // Если картинка уже в кэше — снимаем мгновенно
+    if (modalImg.complete) {
       modalImg.classList.remove('is-fading');
-    };
-  }, 150);
+    } else {
+      modalImg.onload = () => modalImg.classList.remove('is-fading');
+    }
+  }, 100);
 }
 
 function openGallery(galleryKey, startIndex = 0) {
@@ -92,8 +97,10 @@ function openGallery(galleryKey, startIndex = 0) {
   if (!images || images.length === 0) return;
 
   currentGallery = images;
-  currentGalleryKey = galleryKey;
   currentIndex = startIndex;
+
+  // Прогреваем кэш браузера: скачиваем всю пачку фото в фоне
+  preloadGalleryImages(currentGallery);
 
   updateSlide(true);
 
