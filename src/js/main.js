@@ -11,12 +11,10 @@ const galleryData = {
     '/7.webp',
   ],
 
-  // Открывается с превью /youth_day/5.webp, поэтому он идёт первым,
-  // остальные — по порядку, без повтора.
   'youth-day': [
-    '/youth_day/5.webp',
-    '/youth_day/6.webp',
     '/youth_day/1.webp',
+    '/youth_day/6.webp',
+    '/youth_day/5.webp',
     '/youth_day/2.webp',
     '/youth_day/3.webp',
     '/youth_day/4.webp',
@@ -31,12 +29,6 @@ const galleryData = {
     '/wedding_yp/5.webp',
     '/wedding_yp/6.webp',
   ],
-
-  reviews: [
-    '/reviews/1.jpg',
-    '/reviews/2.jpg',
-    '/reviews/3.jpg',
-  ]
 };
 
 function preloadGalleryImages(images) {
@@ -50,7 +42,6 @@ const galleryAlt = {
   host: 'Ведущий Влад Тетеркин',
   'youth-day': 'Ведущий Влад Тетеркин на Дне молодежи',
   'wedding-day': 'Ведущий Влад Тетеркин на свадьбе',
-  reviews: 'Отзыв клиента о работе Влада Тетеркина',
 };
 
 const modal = document.getElementById('gallery-modal');
@@ -72,9 +63,12 @@ function updateSlide(isInitialOpen = false) {
   btnPrev.style.display = hasMultiplePhotos ? 'block' : 'none';
   btnNext.style.display = hasMultiplePhotos ? 'block' : 'none';
 
+  const altText = `${galleryAlt[currentGalleryKey] || 'Фото галереи'} (${currentIndex + 1} из ${currentGallery.length})`;
+
   if (isInitialOpen) {
     modalImg.classList.add('is-fading');
     modalImg.src = currentGallery[currentIndex];
+    modalImg.alt = altText;
     modalImg.onload = () => modalImg.classList.remove('is-fading');
     return;
   }
@@ -82,8 +76,8 @@ function updateSlide(isInitialOpen = false) {
   modalImg.classList.add('is-fading');
   setTimeout(() => {
     modalImg.src = currentGallery[currentIndex];
+    modalImg.alt = altText;
     
-    // Если картинка уже в кэше — снимаем мгновенно
     if (modalImg.complete) {
       modalImg.classList.remove('is-fading');
     } else {
@@ -99,7 +93,6 @@ function openGallery(galleryKey, startIndex = 0) {
   currentGallery = images;
   currentIndex = startIndex;
 
-  // Прогреваем кэш браузера: скачиваем всю пачку фото в фоне
   preloadGalleryImages(currentGallery);
 
   updateSlide(true);
@@ -131,17 +124,7 @@ function showPrev() {
 }
 
 document.querySelectorAll('[data-gallery]').forEach((card) => {
-  const openAction = () => {
-    const key = card.dataset.gallery;
-
-    if (key === 'reviews') {
-      const allReviews = Array.from(document.querySelectorAll('[data-gallery="reviews"]'));
-      const reviewIndex = allReviews.indexOf(card);
-      openGallery(key, reviewIndex !== -1 ? reviewIndex : 0);
-    } else {
-      openGallery(key, 0);
-    }
-  };
+  const openAction = () => openGallery(card.dataset.gallery, 0);
 
   card.addEventListener('click', openAction);
   
@@ -192,3 +175,105 @@ function handleSwipe() {
     showPrev();
   }
 }
+
+const reviewsData = [
+  {
+    text: '«Хочу сказать тебе огромное спасибо за проведение нашего праздника! Ты правда очень круто отработал — с энергией, юмором и отличным чувством зала. Было спокойно за программу, атмосфера держалась весь вечер!»',
+    name: 'Юлия & Павел',
+    event: 'Свадьба'
+  },
+  {
+    text: '«Влад, спасибо за вечер! Всё прошло именно так, как мы хотели: легко, смешно, стильно и без шаблонного бреда. Ты профессионал своего дела — включился на максимум, держал зал до самого конца и снял с нас весь свадебный стресс. Рады, что доверили наш день именно тебе!»',
+    name: 'Юлия & Павел',
+    event: 'Свадьба'
+  },
+  {
+    text: '«И да, всё забываю написать. Спасибо тебе огромное за твой труд! Все в восторге, было просто шикарно всё. Гости не хотели расходиться, давно мы так не танцевали и не смеялись!»',
+    name: 'Симоненко',
+    event: 'Юбилей'
+  },
+  {
+    text: '«Огромное спасибо за фестиваль! Влад нас просто спас: во время непредвиденной заминки он так классно держал внимание зала и импровизировал, что зрители даже ничего не заметили. Ни единого упрёка за сдвиг тайминга — максимальный профессионализм и поддержка, когда мы были на нервах. Участники и зрители в полном восторге!»',
+    name: 'Feel Fest',
+    event: 'Фестиваль корейских танцев'
+  }
+];
+
+const reviewCard = document.querySelector('.review-card');
+reviewCard?.setAttribute('aria-live', 'polite');
+const reviewText = reviewCard?.querySelector('.review-card__text');
+const reviewName = reviewCard?.querySelector('.review-card__name');
+const reviewEvent = reviewCard?.querySelector('.review-card__event');
+const reviewsBtnPrev = document.querySelector('.reviews__btn--prev');
+const reviewsBtnNext = document.querySelector('.reviews__btn--next');
+const reviewsDotsContainer = document.querySelector('.reviews__dots');
+
+let currentReviewIndex = 0;
+
+function renderReviewDots() {
+  if (!reviewsDotsContainer) return;
+  reviewsDotsContainer.innerHTML = '';
+
+  reviewsData.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = `reviews__dot ${index === currentReviewIndex ? 'is-active' : ''}`;
+    dot.setAttribute('aria-label', `Перейти к отзыву ${index + 1}`);
+    dot.setAttribute('aria-current', index === currentReviewIndex ? 'true' : 'false');
+    dot.addEventListener('click', () => setReview(index));
+    reviewsDotsContainer.appendChild(dot);
+  });
+}
+
+function setReview(newIndex) {
+  if (newIndex === currentReviewIndex || !reviewCard) return;
+
+  reviewCard.classList.add('is-fading');
+
+  setTimeout(() => {
+    currentReviewIndex = newIndex;
+    const review = reviewsData[currentReviewIndex];
+
+    if (reviewText) reviewText.textContent = review.text;
+    if (reviewName) reviewName.textContent = review.name;
+    if (reviewEvent) reviewEvent.textContent = review.event;
+
+    // Обновляем активную точку
+    const dots = reviewsDotsContainer?.querySelectorAll('.reviews__dot');
+    dots?.forEach((dot, idx) => {
+      dot.classList.toggle('is-active', idx === currentReviewIndex);
+      dot.setAttribute('aria-current', idx === currentReviewIndex ? 'true' : 'false');
+    });
+
+    reviewCard.classList.remove('is-fading');
+  }, 180);
+}
+
+function nextReview() {
+  const nextIndex = (currentReviewIndex + 1) % reviewsData.length;
+  setReview(nextIndex);
+}
+
+function prevReview() {
+  const prevIndex = (currentReviewIndex - 1 + reviewsData.length) % reviewsData.length;
+  setReview(prevIndex);
+}
+
+reviewsBtnNext?.addEventListener('click', nextReview);
+reviewsBtnPrev?.addEventListener('click', prevReview);
+
+let reviewTouchStartX = 0;
+let reviewTouchEndX = 0;
+
+reviewCard?.addEventListener('touchstart', (e) => {
+  reviewTouchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+reviewCard?.addEventListener('touchend', (e) => {
+  reviewTouchEndX = e.changedTouches[0].screenX;
+  const diff = reviewTouchStartX - reviewTouchEndX;
+  if (diff > 50) nextReview();
+  if (diff < -50) prevReview();
+}, { passive: true });
+
+renderReviewDots();
