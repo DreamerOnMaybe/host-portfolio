@@ -38,21 +38,6 @@ a {
     line-height: 1.1;
 }
 
-.btn {
-    background: var(--color-bg-btns);
-    padding: 15px;
-    border-radius: 36px;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--color-text-muted);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-
-    &:hover {
-        transform: translateY(-2px);
-        opacity: 0.9;
-    }
-}
-
 .logo {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -201,10 +186,8 @@ a {
 }
 
 .project {
-    cursor: pointer;
     display: flex;
     flex-direction: column;
-    outline: none;
 
     &__image-box {
         position: relative;
@@ -246,7 +229,8 @@ a {
         transition: color 0.2s ease;
     }
 
-    &:hover {
+    &:has(.project__image-box:hover),
+    &:has(.project__image-box:focus-visible) {
         .project__photo {
             transform: scale(1.04);
         }
@@ -260,9 +244,13 @@ a {
             color: var(--color-accent);
         }
     }
+}
+
+.project__image-box {
+    cursor: pointer;
+    outline: none;
 
     &:focus-visible {
-        border-radius: 16px;
         box-shadow: 0 0 0 3px var(--color-accent);
     }
 }
@@ -297,10 +285,11 @@ a {
         margin-top: 8px;
     }
 
+    // Скрыто: кнопки навигации пока не подключены к скроллу трека (см. main.js).
+    // Когда добавите обработчики prev/next, верните display: flex.
     &__controls {
-        display: flex;
-        gap: 12px;
         display: none;
+        gap: 12px;
     }
 
     &__btn {

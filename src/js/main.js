@@ -1,7 +1,5 @@
 import '../scss/main.scss';
 
-console.log('App ready');
-
 const galleryData = {
   host: [
     '/1.webp',
@@ -13,6 +11,8 @@ const galleryData = {
     '/7.webp',
   ],
 
+  // Открывается с превью /youth_day/5.webp, поэтому он идёт первым,
+  // остальные — по порядку, без повтора.
   'youth-day': [
     '/youth_day/5.webp',
     '/youth_day/6.webp',
@@ -20,17 +20,16 @@ const galleryData = {
     '/youth_day/2.webp',
     '/youth_day/3.webp',
     '/youth_day/4.webp',
-    '/youth_day/5.webp',
   ],
 
   'wedding-day': [
-    '/wedding_y&p/7.webp',
-    '/wedding_y&p/1.webp',
-    '/wedding_y&p/2.webp',
-    '/wedding_y&p/3.webp',
-    '/wedding_y&p/4.webp',
-    '/wedding_y&p/5.webp',
-    '/wedding_y&p/6.webp',
+    '/wedding_yp/7.webp',
+    '/wedding_yp/1.webp',
+    '/wedding_yp/2.webp',
+    '/wedding_yp/3.webp',
+    '/wedding_yp/4.webp',
+    '/wedding_yp/5.webp',
+    '/wedding_yp/6.webp',
   ],
 
   reviews: [
@@ -38,6 +37,13 @@ const galleryData = {
     '/reviews/2.jpg',
     '/reviews/3.jpg',
   ]
+};
+
+const galleryAlt = {
+  host: 'Ведущий Влад Тетеркин',
+  'youth-day': 'Ведущий Влад Тетеркин на Дне молодежи',
+  'wedding-day': 'Ведущий Влад Тетеркин на свадьбе',
+  reviews: 'Отзыв клиента о работе Влада Тетеркина',
 };
 
 const modal = document.getElementById('gallery-modal');
@@ -48,6 +54,7 @@ const btnPrev = modal.querySelector('.modal__arrow--prev');
 const btnNext = modal.querySelector('.modal__arrow--next');
 
 let currentGallery = [];
+let currentGalleryKey = '';
 let currentIndex = 0;
 
 function updateSlide(isInitialOpen = false) {
@@ -58,9 +65,12 @@ function updateSlide(isInitialOpen = false) {
   btnPrev.style.display = hasMultiplePhotos ? 'block' : 'none';
   btnNext.style.display = hasMultiplePhotos ? 'block' : 'none';
 
+  const altText = `${galleryAlt[currentGalleryKey] || 'Фото галереи'} (${currentIndex + 1} из ${currentGallery.length})`;
+
   if (isInitialOpen) {
     modalImg.classList.add('is-fading');
     modalImg.src = currentGallery[currentIndex];
+    modalImg.alt = altText;
     modalImg.onload = () => {
       modalImg.classList.remove('is-fading');
     };
@@ -70,6 +80,7 @@ function updateSlide(isInitialOpen = false) {
   modalImg.classList.add('is-fading');
   setTimeout(() => {
     modalImg.src = currentGallery[currentIndex];
+    modalImg.alt = altText;
     modalImg.onload = () => {
       modalImg.classList.remove('is-fading');
     };
@@ -81,6 +92,7 @@ function openGallery(galleryKey, startIndex = 0) {
   if (!images || images.length === 0) return;
 
   currentGallery = images;
+  currentGalleryKey = galleryKey;
   currentIndex = startIndex;
 
   updateSlide(true);
@@ -111,9 +123,9 @@ function showPrev() {
   updateSlide();
 }
 
-document.querySelectorAll('[data-gallery], [data-project]').forEach((card) => {
+document.querySelectorAll('[data-gallery]').forEach((card) => {
   const openAction = () => {
-    const key = card.dataset.gallery || card.dataset.project;
+    const key = card.dataset.gallery;
 
     if (key === 'reviews') {
       const allReviews = Array.from(document.querySelectorAll('[data-gallery="reviews"]'));

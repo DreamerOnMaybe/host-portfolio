@@ -146,9 +146,10 @@ h1, h2, h3 {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 
   // Плавный переход прозрачности и легкого зума
+  // Длительность синхронизирована с таймаутом смены src в main.js (150мс)
   opacity: 1;
   transform: scale(1);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 
   // Состояние в момент смены слайда
   &.is-fading {
