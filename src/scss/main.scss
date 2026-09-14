@@ -88,7 +88,7 @@ a {
     padding-block: clamp(40px, 5vw, 80px);
     flex-direction: column-reverse;
 
-    @media (min-width: 768px) {
+    @media (min-width: 1032px) {
         flex-direction: row;
         justify-content: space-between;
         gap: 48px;
@@ -119,13 +119,62 @@ a {
 }
 
 
+
+
+.about__image-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: clamp(20px, 3vw, 36px);
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    &:hover {
+        .main__photo {
+            transform: scale(1.04);
+        }
+
+        .about__badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 3px var(--color-bg-btns);
+    }
+}
+
 .main__photo {
-    width: clamp(280px, 40vw, 450px);
+    width: clamp(280px, 60vw, 450px);
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    border-radius: clamp(20px, 3vw, 36px);
-    border: 1px solid rgba(255, 255, 255, 0.08); // благородная тонкая грань
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.about__badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(15, 16, 18, 0.75);
+    backdrop-filter: blur(8px);
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .portfolio {
@@ -141,11 +190,11 @@ a {
     &__grid {
         margin-top: clamp(40px, 6vw, 64px);
         display: grid;
-        grid-template-columns: 1fr; // 1 колонка на смартфонах
+        grid-template-columns: 1fr;
         gap: 32px;
 
         @media (min-width: 640px) {
-            grid-template-columns: repeat(2, 1fr); // идеальная сетка 2х2 от планшета и выше
+            grid-template-columns: repeat(2, 1fr);
             gap: 32px 24px;
         }
     }
@@ -161,7 +210,7 @@ a {
         position: relative;
         overflow: hidden;
         border-radius: 16px;
-        aspect-ratio: 1 / 1; // квадратный кадр (или 4/3)
+        aspect-ratio: 1 / 1;
         background-color: var(--color-bg-surface);
     }
 
@@ -197,10 +246,9 @@ a {
         transition: color 0.2s ease;
     }
 
-    // Эффект при наведении курсора на десктопе
     &:hover {
         .project__photo {
-            transform: scale(1.04); // плавный зум картинки
+            transform: scale(1.04);
         }
 
         .project__badge {
@@ -209,14 +257,20 @@ a {
         }
 
         .project__title {
-            color: var(--color-accent); // заголовок мягко подсвечивается
+            color: var(--color-accent);
         }
     }
 
-    // Доступность: подсветка при переходе клавишей Tab
     &:focus-visible {
         border-radius: 16px;
         box-shadow: 0 0 0 3px var(--color-accent);
+    }
+}
+
+.project__badge {
+    @media (max-width: 768px) {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -246,6 +300,7 @@ a {
     &__controls {
         display: flex;
         gap: 12px;
+        display: none;
     }
 
     &__btn {
@@ -267,7 +322,6 @@ a {
         }
     }
 
-    // Горизонтальный ряд со скроллом
     &__track {
         display: flex;
         gap: 24px;

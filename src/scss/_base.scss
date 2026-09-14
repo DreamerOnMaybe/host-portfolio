@@ -19,3 +19,140 @@ h1, h2, h3 {
     margin-inline: auto;
     padding: var(--container-padding);
 }
+
+.modal {
+  position: fixed;
+  inset: 0; // заменяет top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  
+  // Скрытое состояние по умолчанию
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 16, 18, 0.95);
+    backdrop-filter: blur(8px);
+    cursor: pointer; // подсказка, что клик закроет окно
+  }
+
+  &__dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1000px; // ограничиваем ширину на больших экранах
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-bg-btns);
+    }
+
+    @media (max-width: 768px) {
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+    }
+  }
+
+  &__slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0px;
+  }
+
+  &__arrow {
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 32px;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.2s ease, color 0.2s ease;
+
+    @media (max-width: 768px) {
+      display: none !important;
+    }
+
+    &:hover {
+      color: var(--color-bg-btns);
+      transform: scale(1.1);
+    }
+
+    &:disabled {
+      color: rgba(255, 255, 255, 0.2);
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  &__view {
+    height: clamp(65vh, 80dvh, 85vh);
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh; 
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; // фото помещается целиком без обрезки
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  &__counter {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.modal__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  // Плавный переход прозрачности и легкого зума
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  // Состояние в момент смены слайда
+  &.is-fading {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
