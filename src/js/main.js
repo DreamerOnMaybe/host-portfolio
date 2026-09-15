@@ -121,6 +121,9 @@ function openGallery(galleryKey, startIndex = 0) {
 }
 
 function closeGallery() {
+  if (document.activeElement && modal.contains(document.activeElement)) {
+    document.activeElement.blur();
+  }
   modal.classList.remove('is-open');
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
@@ -279,19 +282,5 @@ function prevReview() {
 
 reviewsBtnNext?.addEventListener('click', nextReview);
 reviewsBtnPrev?.addEventListener('click', prevReview);
-
-let reviewTouchStartX = 0;
-let reviewTouchEndX = 0;
-
-reviewCard?.addEventListener('touchstart', (e) => {
-  reviewTouchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-
-reviewCard?.addEventListener('touchend', (e) => {
-  reviewTouchEndX = e.changedTouches[0].screenX;
-  const diff = reviewTouchStartX - reviewTouchEndX;
-  if (diff > 50) nextReview();
-  if (diff < -50) prevReview();
-}, { passive: true });
 
 renderReviewDots();
