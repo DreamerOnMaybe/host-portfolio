@@ -29,6 +29,24 @@ const galleryData = {
     '/wedding_yp/5.webp',
     '/wedding_yp/6.webp',
   ],
+
+  'faq-bar': [
+    '/faq_bar/1.webp',
+    '/faq_bar/2.webp',
+    '/faq_bar/3.webp',
+    '/faq_bar/4.webp',
+    '/faq_bar/5.webp',
+  ],
+
+  'forum': [
+    '/forum/1.webp',
+    '/forum/2.webp',
+    '/forum/3.webp',
+    '/forum/4.webp',
+    '/forum/5.webp',
+    '/forum/6.webp',
+    '/forum/7.webp',
+  ]
 };
 
 function preloadGalleryImages(images) {
